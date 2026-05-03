@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Temple.Training</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0a;--s1:#131313;--s2:#1a1a1a;--s3:#222;--border:#272727;--accent:#c8ff00;--accent2:#ff4d1c;--blue:#4d9fff;--purple:#a78bfa;--gold:#fbbf24;--green:#34d399;--text:#efefef;--muted:#555;--muted2:#888;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;}
+.header{padding:24px 20px 16px;border-bottom:1px solid var(--border);background:var(--s1);}
+.header-top{display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:12px;}
+.logo{font-family:'Bebas Neue',sans-serif;font-size:2.4rem;letter-spacing:3px;color:var(--accent);line-height:1;}
+.logo span{color:var(--text);}
+.pills{display:flex;gap:8px;flex-wrap:wrap;}
+.pill{font-family:'DM Mono',monospace;font-size:0.6rem;text-transform:uppercase;letter-spacing:1.5px;padding:4px 10px;border-radius:20px;border:1px solid var(--border);color:var(--muted2);background:var(--s2);}
+.meta{display:flex;gap:20px;margin-top:14px;flex-wrap:wrap;}
+.mv{font-family:'Bebas Neue',sans-serif;font-size:1.5rem;color:var(--accent);line-height:1;}
+.ml{font-family:'DM Mono',monospace;font-size:0.58rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);}
+nav{display:flex;overflow-x:auto;background:var(--s1);border-bottom:1px solid var(--border);padding:0 16px;}
+nav::-webkit-scrollbar{display:none;}
+nav button{background:none;border:none;border-bottom:2px solid transparent;color:var(--muted2);font-family:'DM Mono',monospace;font-size:0.65rem;text-transform:uppercase;letter-spacing:1.5px;padding:13px 14px;cursor:pointer;white-space:nowrap;transition:all 0.2s;flex-shrink:0;}
+nav button.active{color:var(--accent);border-bottom-color:var(--accent);}
+nav button:hover:not(.active){color:var(--text);}
+.page{display:none;padding:20px;max-width:640px;margin:0 auto;padding-bottom:80px;}
+.page.active{display:block;}
+.slabel{font-family:'DM Mono',monospace;font-size:0.6rem;text-transform:uppercase;letter-spacing:2px;color:var(--accent2);margin-bottom:6px;display:flex;align-items:center;gap:8px;}
+.slabel::after{content:'';flex:1;height:1px;background:var(--border);}
+.stitle{font-family:'Bebas Neue',sans-serif;font-size:1.8rem;letter-spacing:2px;margin-bottom:4px;}
+.ssub{font-size:0.78rem;color:var(--muted2);margin-bottom:20px;}
+.block{background:var(--s1);border:1px solid var(--border);border-radius:10px;margin-bottom:14px;overflow:hidden;}
+.bhead{display:flex;align-items:center;gap:10px;padding:11px 14px;background:var(--s2);border-bottom:1px solid var(--border);}
+.bicon{font-size:1rem;}
+.bname{font-size:0.85rem;font-weight:600;flex:1;}
+.badge{font-family:'DM Mono',monospace;font-size:0.55rem;padding:3px 8px;border-radius:3px;text-transform:uppercase;letter-spacing:1px;}
+.bs{background:#1a1f35;color:var(--blue);border:1px solid #253060;}
+.be{background:#0f1f10;color:var(--green);border:1px solid #1e3f20;}
+.bc{background:#1f1209;color:var(--accent2);border:1px solid #3f2010;}
+.ba{background:#1a1510;color:var(--gold);border:1px solid #3a2f1a;}
+.btime{font-family:'DM Mono',monospace;font-size:0.6rem;color:var(--muted);white-space:nowrap;}
+.exlist{padding:6px 0;}
+.exrow{display:grid;grid-template-columns:1fr auto auto;align-items:center;gap:10px;padding:9px 14px;border-bottom:1px solid var(--border);transition:background 0.15s;}
+.exrow:last-child{border-bottom:none;}
+.exrow:hover{background:var(--s2);}
+.exrow2{grid-template-columns:1fr auto;}
+.exn{font-size:0.83rem;font-weight:500;}
+.exs{font-family:'DM Mono',monospace;font-size:0.68rem;color:var(--muted2);margin-top:2px;}
+.inp{background:var(--bg);border:1px solid var(--border);border-radius:5px;color:var(--text);font-family:'DM Mono',monospace;font-size:0.72rem;padding:5px 8px;width:82px;text-align:center;transition:border-color 0.2s;}
+.inp:focus{outline:none;border-color:var(--accent);}
+.inp::placeholder{color:var(--muted);}
+.lbtn{background:var(--s3);border:1px solid var(--border);border-radius:5px;color:var(--muted2);font-family:'DM Mono',monospace;font-size:0.6rem;text-transform:uppercase;letter-spacing:1px;padding:6px 10px;cursor:pointer;transition:all 0.15s;white-space:nowrap;}
+.lbtn:hover{background:var(--accent);color:#000;border-color:var(--accent);}
+.lbtn.logged{background:var(--green);color:#000;border-color:var(--green);}
+.emom-wrap{padding:12px 14px;background:#0c150c;border-top:1px solid #1e3f20;}
+.etitle{font-family:'DM Mono',monospace;font-size:0.6rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--green);margin-bottom:10px;}
+.erow{display:flex;align-items:flex-start;gap:10px;padding:7px 0;border-bottom:1px solid #1a2d1a;}
+.erow:last-child{border-bottom:none;}
+.emin{font-family:'Bebas Neue',sans-serif;font-size:1.1rem;color:var(--green);line-height:1;min-width:44px;}
+.edesc{font-size:0.8rem;line-height:1.4;}
+.enote{font-size:0.7rem;color:var(--muted2);margin-top:2px;}
+.timer-wrap{background:var(--s2);border:1px solid var(--border);border-radius:10px;padding:16px;margin-bottom:14px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;}
+.tdisp{font-family:'Bebas Neue',sans-serif;font-size:3.2rem;color:var(--accent);letter-spacing:4px;line-height:1;min-width:120px;}
+.tctrl{display:flex;gap:8px;flex-wrap:wrap;}
+.tbtn{background:var(--s3);border:1px solid var(--border);border-radius:6px;color:var(--text);font-family:'DM Mono',monospace;font-size:0.65rem;text-transform:uppercase;letter-spacing:1px;padding:8px 14px;cursor:pointer;transition:all 0.15s;}
+.tbtn.go{background:var(--accent);color:#000;border-color:var(--accent);}
+.tbtn.go:hover{background:#b5e600;}
+.tbtn.kill{background:#2a1010;color:var(--accent2);border-color:#4a2020;}
+.tlabel{font-family:'DM Mono',monospace;font-size:0.6rem;color:var(--muted);text-transform:uppercase;letter-spacing:1px;}
+.tip{background:var(--s1);border:1px solid var(--border);border-left:3px solid var(--accent2);border-radius:6px;padding:12px 14px;margin-bottom:14px;}
+.tipl{font-family:'DM Mono',monospace;font-size:0.58rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--accent2);margin-bottom:6px;}
+.tipt{font-size:0.8rem;color:var(--muted2);line-height:1.6;}
+.wgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:20px;}
+.wday{background:var(--s1);border:1px solid var(--border);border-radius:8px;padding:12px 10px;text-align:center;cursor:pointer;transition:all 0.15s;}
+.wday:hover{border-color:var(--muted2);}
+.wday.done{border-color:var(--green);background:#0c1a0c;}
+.wdl{font-family:'DM Mono',monospace;font-size:0.58rem;text-transform:uppercase;letter-spacing:1px;color:var(--muted);}
+.wdn{font-size:0.75rem;font-weight:600;margin-top:4px;}
+.wdc{font-size:1.1rem;margin-top:6px;}
+.ltable{width:100%;border-collapse:collapse;margin-bottom:20px;}
+.ltable th{font-family:'DM Mono',monospace;font-size:0.6rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);text-align:left;padding:8px 10px;border-bottom:1px solid var(--border);}
+.ltable td{font-size:0.8rem;padding:10px 10px;border-bottom:1px solid var(--border);}
+.ltable tr:last-child td{border-bottom:none;}
+.prbadge{font-family:'DM Mono',monospace;font-size:0.55rem;background:#1a2a10;color:var(--green);border:1px solid #2d4a1a;border-radius:3px;padding:2px 6px;margin-left:6px;}
+.ovgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px;}
+.ovcard{background:var(--s1);border:1px solid var(--border);border-radius:10px;padding:16px;}
+.ovn{font-family:'Bebas Neue',sans-serif;font-size:2.2rem;color:var(--accent);line-height:1;}
+.ovl{font-family:'DM Mono',monospace;font-size:0.6rem;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin-top:4px;}
+.srow{display:flex;align-items:center;gap:12px;padding:12px 14px;background:var(--s1);border:1px solid var(--border);border-radius:8px;margin-bottom:8px;}
+.sdot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
+.sday{font-weight:600;font-size:0.85rem;min-width:80px;}
+.sdesc{font-size:0.78rem;color:var(--muted2);}
+.stime{font-family:'DM Mono',monospace;font-size:0.65rem;color:var(--muted);margin-left:auto;white-space:nowrap;}
+.bnav{position:fixed;bottom:0;left:0;right:0;background:var(--s1);border-top:1px solid var(--border);display:flex;justify-content:space-around;padding:8px 0 12px;z-index:100;}
+.bnav button{background:none;border:none;color:var(--muted);cursor:pointer;font-family:'DM Mono',monospace;font-size:0.55rem;text-transform:uppercase;letter-spacing:1px;padding:6px 12px;display:flex;flex-direction:column;align-items:center;gap:3px;transition:color 0.2s;}
+.bnav button .bi{font-size:1.1rem;}
+.bnav button.active{color:var(--accent);}
+.cbtn{width:100%;padding:13px;font-size:0.72rem;border-radius:8px;background:var(--s2);color:var(--text);border:1px solid var(--border);font-family:'DM Mono',monospace;text-transform:uppercase;letter-spacing:1.5px;cursor:pointer;transition:all 0.2s;margin-top:4px;}
+.cbtn:hover{background:var(--green);color:#000;border-color:var(--green);}
+/* Check-off states */
+.chk{display:flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:6px;border:1.5px solid var(--border);background:var(--bg);cursor:pointer;flex-shrink:0;font-size:0.9rem;transition:all 0.15s;user-select:none;}
+.chk:hover{border-color:var(--green);}
+.row-done .chk{background:var(--green);border-color:var(--green);}
+.row-done .exn,.row-done .edesc,.row-done .wu-desc,.row-done .cd-name{text-decoration:line-through;opacity:0.45;}
+.row-done .exs,.row-done .enote,.row-done .wu-note,.row-done .cd-hold,.row-done .cd-note{opacity:0.3;}
+.row-done{background:#0c1a0c !important;}
+
+/* Verse & Quote */
+.verse-bar{background:#0e0c1a;border:1px solid #2a1e50;border-radius:10px;padding:14px 16px;margin-bottom:14px;display:flex;align-items:flex-start;gap:12px;}
+.verse-icon{font-size:1.2rem;flex-shrink:0;margin-top:1px;}
+.verse-text{font-size:0.82rem;color:#c4b5fd;line-height:1.6;font-style:italic;}
+.verse-ref{font-family:'DM Mono',monospace;font-size:0.62rem;color:var(--purple);text-transform:uppercase;letter-spacing:1.5px;margin-top:5px;}
+.quote-bar{background:#0d0d0d;border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:6px;padding:13px 15px;margin-bottom:14px;}
+.quote-text{font-size:0.82rem;color:var(--muted2);line-height:1.6;font-style:italic;}
+.quote-attr{font-family:'DM Mono',monospace;font-size:0.6rem;color:var(--muted);margin-top:6px;text-transform:uppercase;letter-spacing:1px;}
+/* WARMUP */
+.wu-wrap{padding:12px 14px;background:#0d0f1a;border-top:1px solid #1e2a50;}
+.wu-title{font-family:'DM Mono',monospace;font-size:0.6rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--blue);margin-bottom:10px;}
+.wu-row{display:flex;align-items:flex-start;gap:10px;padding:7px 0;border-bottom:1px solid #1a2040;}
+.wu-row:last-child{border-bottom:none;}
+.wu-num{font-family:'Bebas Neue',sans-serif;font-size:1.1rem;color:var(--blue);line-height:1;min-width:28px;}
+.wu-desc{font-size:0.8rem;line-height:1.4;}
+.wu-note{font-size:0.7rem;color:var(--muted2);margin-top:2px;}
+/* COOLDOWN */
+.cd-wrap{padding:12px 14px;background:#100d1a;border-top:1px solid #2a1e50;}
+.cd-title{font-family:'DM Mono',monospace;font-size:0.6rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--purple);margin-bottom:10px;}
+.cd-row{display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:1px solid #1e1a40;}
+.cd-row:last-child{border-bottom:none;}
+.cd-num{font-family:'Bebas Neue',sans-serif;font-size:1.1rem;color:var(--purple);line-height:1;min-width:28px;}
+.cd-body{flex:1;}
+.cd-name{font-size:0.82rem;font-weight:600;}
+.cd-hold{font-family:'DM Mono',monospace;font-size:0.65rem;color:var(--purple);margin-top:1px;}
+.cd-note{font-size:0.7rem;color:var(--muted2);margin-top:3px;line-height:1.4;}
+.bwu{background:#1a1f35;color:var(--blue);border:1px solid #253060;}
+.bcd{background:#1a1535;color:var(--purple);border:1px solid #2a1e60;}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-top">
+    <div class="logo">TEMPLE<span>.TRAINING</span></div>
+    <div class="pills">
+      <span class="pill">6'2" · 185 lb</span>
+      <span class="pill">Crunch Fitness</span>
+      <span class="pill">CrossFit BG</span>
+    </div>
+  </div>
+  <div class="meta">
+    <div><div class="mv">3–4</div><div class="ml">Days/Week</div></div>
+    <div><div class="mv">30–45</div><div class="ml">Min/Session</div></div>
+    <div><div class="mv">10</div><div class="ml">Min EMOM</div></div>
+    <div><div class="mv" id="sc">0</div><div class="ml">Sessions Done</div></div>
+  </div>
+</div>
+
+<nav>
+  <button class="active" onclick="go('ov',this)">Overview</button>
+  <button onclick="go('d1',this)">Day 1 · Push</button>
+  <button onclick="go('d2',this)">Day 2 · Pull</button>
+  <button onclick="go('d3',this)">Day 3 · Full Body</button>
+  <button onclick="go('d4',this)">Day 4 · Cardio</button>
+  <button onclick="go('pr',this)">Progress</button>
+</nav>
+
+<!-- OVERVIEW -->
+<div class="page active" id="ov">
+<br>
+<div class="slabel">Your Program</div>
+<div class="stitle">Weekly Structure</div>
+<div class="ssub">Full-body focused · Core lifts · EMOM finishers · 30–45 min in/out</div>
+<div class="ovgrid">
+  <div class="ovcard"><div class="ovn">3</div><div class="ovl">Lifting Days</div></div>
+  <div class="ovcard"><div class="ovn">1</div><div class="ovl">Cardio Day</div></div>
+  <div class="ovcard"><div class="ovn">10<span style="font-size:1rem;color:var(--muted2)">min</span></div><div class="ovl">EMOM Finisher</div></div>
+  <div class="ovcard"><div class="ovn">~5</div><div class="ovl">Exercises/Day</div></div>
+</div>
+<div class="slabel">Schedule</div>
+<div class="srow"><div class="sdot" style="background:var(--blue)"></div><div class="sday">Monday</div><div class="sdesc">Day 1 — Push (Chest · Shoulders · Tris)</div><div class="stime">30–40 min</div></div>
+<div class="srow"><div class="sdot" style="background:var(--purple)"></div><div class="sday">Wednesday</div><div class="sdesc">Day 2 — Pull (Back · Biceps · Core)</div><div class="stime">30–40 min</div></div>
+<div class="srow"><div class="sdot" style="background:var(--accent)"></div><div class="sday">Friday</div><div class="sdesc">Day 3 — Full Body (Squat · Hinge · Push)</div><div class="stime">35–45 min</div></div>
+<div class="srow"><div class="sdot" style="background:var(--accent2)"></div><div class="sday">Saturday</div><div class="sdesc">Day 4 — Zone 2 Cardio + Core (Optional)</div><div class="stime">30 min</div></div>
+<div class="srow" style="opacity:0.4"><div class="sdot" style="background:var(--muted)"></div><div class="sday">Tue/Thu/Sun</div><div class="sdesc">Rest / Active Recovery</div><div class="stime">—</div></div>
+<div class="slabel" style="margin-top:20px">Session Blueprint</div>
+<div class="block">
+  <div class="bhead"><div class="bicon">⚡</div><div class="bname">Every Session — How It Flows</div></div>
+  <div class="exlist">
+    <div class="exrow" style="grid-template-columns:auto 1fr auto"><div style="font-family:'Bebas Neue',sans-serif;font-size:1.3rem;color:var(--accent);min-width:28px">1</div><div><div class="exn">Warm-Up</div><div class="exs">Skip rope · row · band pull-aparts</div></div><div class="exs">5 min</div></div>
+    <div class="exrow" style="grid-template-columns:auto 1fr auto"><div style="font-family:'Bebas Neue',sans-serif;font-size:1.3rem;color:var(--blue);min-width:28px">2</div><div><div class="exn">Core Lifts</div><div class="exs">2–3 compound movements · 3 sets · ~60s rest</div></div><div class="exs">15–20 min</div></div>
+    <div class="exrow" style="grid-template-columns:auto 1fr auto"><div style="font-family:'Bebas Neue',sans-serif;font-size:1.3rem;color:var(--green);min-width:28px">3</div><div><div class="exn">10 Min EMOM</div><div class="exs">2–3 movements · rotate each minute</div></div><div class="exs">10 min</div></div>
+    <div class="exrow" style="grid-template-columns:auto 1fr auto"><div style="font-family:'Bebas Neue',sans-serif;font-size:1.3rem;color:var(--muted2);min-width:28px">4</div><div><div class="exn">Cooldown</div><div class="exs">Stretch · breathwork</div></div><div class="exs">5 min</div></div>
+  </div>
+</div>
+<div class="tip"><div class="tipl">📈 Progressive Overload Rule</div><div class="tipt">Add <strong style="color:var(--text)">5 lbs</strong> to any lift once you hit all sets clean for 2 weeks. For bodyweight moves, add 2 reps per set. Log everything in Progress.</div></div>
+</div>
+
+<!-- DAY 1: PUSH -->
+<div class="page" id="d1">
+<br>
+<div class="slabel">Monday</div>
+<div class="stitle">Day 1 — Push</div>
+<div class="ssub">Chest · Shoulders · Triceps · 30–40 min</div>
+<div class="timer-wrap">
+  <div><div class="tlabel">Session Timer</div><div class="tdisp" id="t1">00:00</div></div>
+  <div class="tctrl">
+    <button class="tbtn go" onclick="tstart(1)" id="ts1">Start</button>
+    <button class="tbtn kill" onclick="tstop(1)" id="tk1" style="display:none">Stop</button>
+    <button class="tbtn" onclick="treset(1)">Reset</button>
+  </div>
+</div>
+<div class="block">
+  <div class="bhead"><div class="bicon">🏋️</div><div class="bname">Strength Block</div><span class="badge bs">Strength</span><div class="btime">15–18 min</div></div>
+  <div class="exlist">
+    <div class="exrow"><div class="chk" onclick="ck(this)"></div><div><div class="exn">Barbell Bench Press</div><div class="exs">3 × 5 · Heavy · 60–90s rest</div></div><input class="inp" placeholder="lbs" id="d1b"><button class="lbtn" onclick="lg(this,'d1b','Bench Press')">Log</button></div>
+    <div class="exrow"><div class="chk" onclick="ck(this)"></div><div><div class="exn">Overhead Press (DB or BB)</div><div class="exs">3 × 8 · Moderate · 60s rest</div></div><input class="inp" placeholder="lbs" id="d1o"><button class="lbtn" onclick="lg(this,'d1o','OHP')">Log</button></div>
+    <div class="exrow"><div class="chk" onclick="ck(this)"></div><div><div class="exn">Push-Ups (Weighted if possible)</div><div class="exs">3 × max reps · 45s rest</div></div><input class="inp" placeholder="reps" id="d1p"><button class="lbtn" onclick="lg(this,'d1p','Push-Ups')">Log</button></div>
+  </div>
+</div>
+<div class="block">
+  <div class="bhead"><div class="bicon">⏱</div><div class="bname">10 Min EMOM Finisher</div><span class="badge be">EMOM</span><div class="btime">10 min</div></div>
+  <div class="emom-wrap">
+    <div class="etitle">Alternate each minute · 5 rounds each</div>
+    <div class="erow" style="cursor:pointer" onclick="ck(this)"><div class="chk" style="margin-top:2px"></div><div class="emin">ODD</div><div><div class="edesc">10 DB Push Press + 5 Tricep Dips</div><div class="enote">Moderate DBs · lock out at top</div></div></div>
+    <div class="erow" style="cursor:pointer" onclick="ck(this)"><div class="chk" style="margin-top:2px"></div><div class="emin">EVEN</div><div><div class="edesc">15 Push-Ups + 10 DB Lateral Raises</div><div class="enote">Chest to deck · controlled laterals</div></div></div>
+  </div>
+</div>
+<div class="tip"><div class="tipl">💡 Push Day Tip</div><div class="tipt">Bench is your primary strength indicator. Treat set 1 as a real working set. Aim to add weight every 2 weeks, not every session. Rest 60–90s between sets.</div></div>
+<button class="cbtn" onclick="done('Mon','Push')">✓ Mark Day Complete</button>
+</div>
+
+<!-- DAY 2: PULL -->
+<div class="page" id="d2">
+<br>
+<div class="slabel">Wednesday</div>
+<div class="stitle">Day 2 — Pull</div>
+<div class="ssub">Back · Biceps · Core · 30–40 min</div>
+<div class="timer-wrap">
+  <div><div class="tlabel">Session Timer</div><div class="tdisp" id="t2">00:00</div></div>
+  <div class="tctrl">
+    <button class="tbtn go" onclick="tstart(2)" id="ts2">Start</button>
+    <button class="tbtn kill" onclick="tstop(2)" id="tk2" style="display:none">Stop</button>
+    <button class="tbtn" onclick="treset(2)">Reset</button>
+  </div>
+</div>
+<div class="block">
+  <div class="bhead"><div class="bicon">🏋️</div><div class="bname">Strength Block</div><span class="badge bs">Strength</span><div class="btime">15–18 min</div></div>
+  <div class="exlist">
+    <div class="exrow"><div class="chk" onclick="ck(this)"></div><div><div class="exn">Pull-Ups (Weighted or Banded)</div><div class="exs">3 × max reps · 60–90s rest</div></div><input class="inp" placeholder="reps" id="d2p"><button class="lbtn" onclick="lg(this,'d2p','Pull-Ups')">Log</button></div>
+    <div class="exrow"><div class="chk" onclick="ck(this)"></div><div><div class="exn">Barbell or DB Row</div><div class="exs">3 × 8 · Moderate-Heavy · 60s rest</div></div><input class="inp" placeholder="lbs" id="d2r"><button class="lbtn" onclick="lg(this,'d2r','Row')">Log</button></div>
+    <div class="exrow"><div class="chk" onclick="ck(this)"></div><div><div class="exn">Cable Face Pulls or Band Pull-Aparts</div><div class="exs">3 × 15 · Light · 45s rest</div></div><input class="inp" placeholder="lbs" id="d2f"><button class="lbtn" onclick="lg(this,'d2f','Face Pulls')">Log</button></div>
+  </div>
+</div>
+<div class="block">
+  <div class="bhead"><div class="bicon">⏱</div><div class="bname">10 Min EMOM Finisher</div><span class="badge be">EMOM</span><div class="btime">10 min</div></div>
+  <div class="emom-wrap">
+    <div class="etitle">Alternate each minute · 5 rounds each</div>
+    <div class="erow" style="cursor:pointer" onclick="ck(this)"><div class="chk" style="margin-top:2px"></div><div class="emin">ODD</div><div><div class="edesc">8 Pull-Ups + 10 DB Hammer Curls</div><div class="enote">Full ROM · dead hang at bottom</div></div></div>
+    <div class="erow" style="cursor:pointer" onclick="ck(this)"><div class="chk" style="margin-top:2px"></div><div class="emin">EVEN</div><div><div class="edesc">20 Hollow Body Rocks + 10 Renegade Rows</div><div class="enote">Core tight · no hip rotation on rows</div></div></div>
+  </div>
+</div>
+<div class="tip"><div class="tipl">💡 Pull Day Tip</div><div class="tipt">Pull-ups are your primary metric here. Track total reps across all 3 sets. Once you hit 30 total reps clean, consider adding a weight belt or vest.</div></div>
+<button class="cbtn" onclick="done('Wed','Pull')">✓ Mark Day Complete</button>
+</div>
+
+<!-- DAY 3: FULL BODY -->
+<div class="page" id="d3">
+<br>
+<div class="slabel">Friday</div>
+<div class="stitle">Day 3 — Full Body</div>
+<div class="ssub">Squat · Hinge · Push · Core · 35–45 min</div>
+<div class="timer-wrap">
+  <div><div class="tlabel">Session Timer</div><div class="tdisp" id="t3">00:00</div></div>
+  <div class="tctrl">
+    <button class="tbtn go" onclick="tstart(3)" id="ts3">Start</button>
+    <button class="tbtn kill" onclick="tstop(3)" id="tk3" style="display:none">Stop</button>
+    <button class="tbtn" onclick="treset(3)">Reset</button>
+  </div>
+</div>
+<div class="block">
+  <div class="bhead"><div class="bicon">🏋️</div><div class="bname">Strength Block</div><span class="badge bs">Strength</span><div class="btime">18–22 min</div></div>
+  <div class="exlist">
+    <div class="exrow"><div class="chk" onclick="ck(this)"></div><div><div class="exn">Back Squat or Goblet Squat</div><div class="exs">3 × 5 · Heavy · 90s rest</div></div><input class="inp" placeholder="lbs" id="d3s"><button class="lbtn" onclick="lg(this,'d3s','Squat')">Log</button></div>
+    <div class="exrow"><div class="chk" onclick="ck(this)"></div><div><div class="exn">Romanian Deadlift (RDL)</div><div class="exs">3 × 8 · Moderate · 60s rest</div></div><input class="inp" placeholder="lbs" id="d3r"><button class="lbtn" onclick="lg(this,'d3r','RDL')">Log</button></div>
+    <div class="exrow"><div class="chk" onclick="ck(this)"></div><div><div class="exn">DB Floor Press or Ring Dips</div><div class="exs">3 × 10 · Moderate · 45s rest</div></div><input class="inp" placeholder="lbs/reps" id="d3p"><button class="lbtn" onclick="lg(this,'d3p','Floor Press')">Log</button></div>
+  </div>
+</div>
+<div class="block">
+  <div class="bhead"><div class="bicon">⏱</div><div class="bname">10 Min Full Body EMOM</div><span class="badge be">EMOM</span><div class="btime">10 min</div></div>
+  <div class="emom-wrap">
+    <div class="etitle">Rotate across 3 movements · repeat cycle</div>
+    <div class="erow" style="cursor:pointer" onclick="ck(this)"><div class="chk" style="margin-top:2px"></div><div class="emin">Min 1</div><div><div class="edesc">12 Box Jumps or Jump Squats</div><div class="enote">Explosive · land soft · full extension</div></div></div>
+    <div class="erow" style="cursor:pointer" onclick="ck(this)"><div class="chk" style="margin-top:2px"></div><div class="emin">Min 2</div><div><div class="edesc">10 KB Swings + 5 Push-Ups</div><div class="enote">Hip hinge — not a squat · hike it back</div></div></div>
+    <div class="erow" style="cursor:pointer" onclick="ck(this)"><div class="chk" style="margin-top:2px"></div><div class="emin">Min 3</div><div><div class="edesc">30s Plank + 10 V-Ups</div><div class="enote">Brace hard · no sagging hips</div></div></div>
+    <div class="erow" style="cursor:pointer" onclick="ck(this)"><div class="chk" style="margin-top:2px"></div><div class="emin">Repeat</div><div><div class="edesc">Cycle repeats: Min 4 = Box Jumps, etc.</div><div class="enote">Note which rounds start feeling hardest</div></div></div>
+  </div>
+</div>
+<div class="tip"><div class="tipl">💡 Full Body Tip</div><div class="tipt">This is your hardest day. Squat + RDL hits the whole posterior chain. If energy is low from the week, drop the EMOM to 7 min and add a 4th strength set instead.</div></div>
+<button class="cbtn" onclick="done('Fri','Full Body')">✓ Mark Day Complete</button>
+</div>
+
+<!-- DAY 4: CARDIO -->
+<div class="page" id="d4">
+<br>
+<div class="slabel">Saturday · Optional</div>
+<div class="stitle">Day 4 — Cardio</div>
+<div class="ssub">Zone 2 Conditioning + Core · 30 min</div>
+<div class="timer-wrap">
+  <div><div class="tlabel">Session Timer</div><div class="tdisp" id="t4">00:00</div></div>
+  <div class="tctrl">
+    <button class="tbtn go" onclick="tstart(4)" id="ts4">Start</button>
+    <button class="tbtn kill" onclick="tstop(4)" id="tk4" style="display:none">Stop</button>
+    <button class="tbtn" onclick="treset(4)">Reset</button>
+  </div>
+</div>
+<div class="block">
+  <div class="bhead"><div class="bicon">🏃</div><div class="bname">Zone 2 Cardio — Pick One</div><span class="badge bc">Cardio</span><div class="btime">20 min</div></div>
+  <div class="exlist">
+    <div class="exrow exrow2"><div><div class="exn">Row Erg (Concept2)</div><div class="exs">20 min steady · 2:10–2:20/500m target · conversational pace</div></div><input class="inp" placeholder="cal/m" id="d4r"></div>
+    <div class="exrow exrow2"><div><div class="exn">Assault Bike or Bike Erg</div><div class="exs">20 min · 60–70% effort · NOT a sprint session</div></div><input class="inp" placeholder="cal" id="d4b"></div>
+    <div class="exrow exrow2"><div><div class="exn">Treadmill Incline Walk</div><div class="exs">3.5–4 mph · 8–12% incline · 20 min</div></div><input class="inp" placeholder="miles" id="d4w"></div>
+  </div>
+</div>
+<div class="block">
+  <div class="bhead"><div class="bicon">💪</div><div class="bname">Core Finisher</div><span class="badge ba">Accessory</span><div class="btime">8–10 min</div></div>
+  <div class="emom-wrap">
+    <div class="etitle">3 rounds · 30s rest between rounds</div>
+    <div class="erow" style="cursor:pointer" onclick="ck(this)"><div class="chk" style="margin-top:2px"></div><div class="emin">A</div><div><div class="edesc">15 Ab-Wheel Rollouts or TRX Pike</div><div class="enote">Core braced · don't collapse lower back</div></div></div>
+    <div class="erow" style="cursor:pointer" onclick="ck(this)"><div class="chk" style="margin-top:2px"></div><div class="emin">B</div><div><div class="edesc">20 Russian Twists (with plate or DB)</div><div class="enote">Feet off floor · rotate full range</div></div></div>
+    <div class="erow" style="cursor:pointer" onclick="ck(this)"><div class="chk" style="margin-top:2px"></div><div class="emin">C</div><div><div class="edesc">45s Dead Bug</div><div class="enote">Slow and controlled · back flat to floor</div></div></div>
+  </div>
+</div>
+<div class="tip"><div class="tipl">🔑 Zone 2 Matters</div><div class="tipt">Zone 2 is conversational pace — you should be able to hold a sentence. It builds your aerobic base and speeds recovery. This is not a sprint day. Skip it if you need extra rest this week.</div></div>
+<button class="cbtn" onclick="done('Sat','Cardio')">✓ Mark Day Complete</button>
+</div>
+
+<!-- PROGRESS -->
+<div class="page" id="pr">
+<br>
+<div class="slabel">Tracking</div>
+<div class="stitle">Progress Log</div>
+<div class="ssub">Tap a day to mark complete · PR badges auto-apply to your best lifts</div>
+<div class="wgrid">
+  <div class="wday" id="wMon" onclick="tog('wMon')"><div class="wdl">Mon</div><div class="wdn">Push</div><div class="wdc">⬜</div></div>
+  <div class="wday" id="wWed" onclick="tog('wWed')"><div class="wdl">Wed</div><div class="wdn">Pull</div><div class="wdc">⬜</div></div>
+  <div class="wday" id="wFri" onclick="tog('wFri')"><div class="wdl">Fri</div><div class="wdn">Full Body</div><div class="wdc">⬜</div></div>
+  <div class="wday" id="wSat" onclick="tog('wSat')"><div class="wdl">Sat</div><div class="wdn">Cardio</div><div class="wdc">⬜</div></div>
+</div>
+<div class="slabel">Lift History</div>
+<div id="logview"><div style="color:var(--muted);font-size:0.8rem;padding:20px 0;text-align:center;font-family:'DM Mono',monospace">No lifts logged yet.<br>Head to a workout day and tap Log.</div></div>
+<button class="lbtn" style="width:100%;padding:10px;border-radius:8px;margin-top:8px" onclick="clearAll()">Clear All Logs</button>
+</div>
+
+<!-- BOTTOM NAV -->
+<div class="bnav">
+  <button class="active" onclick="go('ov',this)"><span class="bi">📋</span>Program</button>
+  <button onclick="go('d1',this)"><span class="bi">💪</span>Push</button>
+  <button onclick="go('d2',this)"><span class="bi">🔙</span>Pull</button>
+  <button onclick="go('d3',this)"><span class="bi">⚡</span>Full</button>
+  <button onclick="go('pr',this)"><span class="bi">📈</span>Log</button>
+</div>
+
+<script>
+// Warmup & Cooldown blocks — injected per day
+const WARMUPS = {
+  push: `<div class="wu-wrap"><div class="wu-title">Warm-Up · 5 min · Row-focused</div>
+<div class="wu-row" onclick="ck(this)" style="cursor:pointer"><div class="chk" style="margin-top:2px"></div><div class="wu-num">1</div><div><div class="wu-desc">Row Erg — 3 min easy</div><div class="wu-note">Damper 4–5 · breathe through nose · this is not a workout, it is a ritual</div></div></div>
+<div class="wu-row" onclick="ck(this)" style="cursor:pointer"><div class="chk" style="margin-top:2px"></div><div class="wu-num">2</div><div><div class="wu-desc">10 Band Pull-Aparts</div><div class="wu-note">Opens shoulders and fires the rear delts before pressing — don't skip this one</div></div></div>
+<div class="wu-row" onclick="ck(this)" style="cursor:pointer"><div class="chk" style="margin-top:2px"></div><div class="wu-num">3</div><div><div class="wu-desc">10 Arm Circles each direction + 5 Scap Push-Ups</div><div class="wu-note">Loosen the shoulder girdle · scap push-ups = small ROM, elbows locked</div></div></div>
+<div class="wu-row" onclick="ck(this)" style="cursor:pointer"><div class="chk" style="margin-top:2px"></div><div class="wu-num">4</div><div><div class="wu-desc">1 light warm-up set on bench at ~50% weight</div><div class="wu-note">8–10 slow reps · just waking the muscle up, not taxing it</div></div></div>
+</div>`,
+  pull: `<div class="wu-wrap"><div class="wu-title">Warm-Up · 5 min · Row-focused</div>
+<div class="wu-row" onclick="ck(this)" style="cursor:pointer"><div class="chk" style="margin-top:2px"></div><div class="wu-num">1</div><div><div class="wu-desc">Row Erg — 3 min easy</div><div class="wu-note">Damper 4–5 · nasal breathing · primes the entire pulling pattern</div></div></div>
+<div class="wu-row" onclick="ck(this)" style="cursor:pointer"><div class="chk" style="margin-top:2px"></div><div class="wu-num">2</div><div><div class="wu-desc">10 Dead Hangs — 5 sec each</div><div class="wu-note">Hang from pull-up bar · decompress the spine · activates lats before loading them</div></div></div>
+<div class="wu-row" onclick="ck(this)" style="cursor:pointer"><div class="chk" style="margin-top:2px"></div><div class="wu-num">3</div><div><div class="wu-desc">10 Cat-Cows + 10 Thoracic Rotations per side</div><div class="wu-note">On all fours · opens the mid-back · critical for proper rowing posture</div></div></div>
+<div class="wu-row" onclick="ck(this)" style="cursor:pointer"><div class="chk" style="margin-top:2px"></div><div class="wu-num">4</div><div><div class="wu-desc">1 light row set at ~50% weight</div><div class="wu-note">Focus on the squeeze at the top · build the mind-muscle connection first</div></div></div>
+</div>`,
+  full: `<div class="wu-wrap"><div class="wu-title">Warm-Up · 5 min · Row + Hip focus</div>
+<div class="wu-row" onclick="ck(this)" style="cursor:pointer"><div class="chk" style="margin-top:2px"></div><div class="wu-num">1</div><div><div class="wu-desc">Row Erg — 3 min easy</div><div class="wu-note">Damper 4 · primes hips and posterior chain for squatting and hinging today</div></div></div>
+<div class="wu-row" onclick="ck(this)" style="cursor:pointer"><div class="chk" style="margin-top:2px"></div><div class="wu-num">2</div><div><div class="wu-desc">10 Bodyweight Squats + 10 Glute Bridges</div><div class="wu-note">Full depth squats · drive hips to ceiling on bridges · wake up the posterior chain</div></div></div>
+<div class="wu-row" onclick="ck(this)" style="cursor:pointer"><div class="chk" style="margin-top:2px"></div><div class="wu-num">3</div><div><div class="wu-desc">10 Hip Circles each leg + 10 Leg Swings per side</div><div class="wu-note">Hip mobility is your limiting factor on squats — give this a full minute</div></div></div>
+<div class="wu-row" onclick="ck(this)" style="cursor:pointer"><div class="chk" style="margin-top:2px"></div><div class="wu-num">4</div><div><div class="wu-desc">1 goblet squat set with light weight — 8 reps</div><div class="wu-note">Pause at the bottom · elbows inside knees · practice depth before you load</div></div></div>
+</div>`,
+  cardio: `<div class="wu-wrap"><div class="wu-title">Warm-Up · 3–4 min</div>
+<div class="wu-row" onclick="ck(this)" style="cursor:pointer"><div class="chk" style="margin-top:2px"></div><div class="wu-num">1</div><div><div class="wu-desc">Start cardio machine at 50% effort for 3 min</div><div class="wu-note">Don't jump straight to pace — let heart rate rise gradually</div></div></div>
+<div class="wu-row" onclick="ck(this)" style="cursor:pointer"><div class="chk" style="margin-top:2px"></div><div class="wu-num">2</div><div><div class="wu-desc">10 Hip Circles + 10 Leg Swings per side</div><div class="wu-note">Especially important before incline walk — loose hips = less lower back strain</div></div></div>
+</div>`
+};
+
+const COOLDOWNS = {
+  push: `<div class="cd-wrap"><div class="cd-title">Cool-Down · 5 min · Do not skip this</div>
+<div class="cd-row" onclick="ck(this)" style="cursor:pointer"><div class="chk" style="margin-top:2px"></div><div class="cd-num">1</div><div class="cd-body"><div class="cd-name">Doorway Chest Stretch</div><div class="cd-hold">45 sec · each side</div><div class="cd-note">Arm at 90° on doorframe, lean forward until you feel a pull across the chest. You pressed heavy — this undoes the tightening.</div></div></div>
+<div class="cd-row" onclick="ck(this)" style="cursor:pointer"><div class="chk" style="margin-top:2px"></div><div class="cd-num">2</div><div class="cd-body"><div class="cd-name">Cross-Body Shoulder Stretch</div><div class="cd-hold">30 sec · each arm</div><div class="cd-note">Pull one arm across chest with the other hand. Hold steady, no bouncing. Targets rear delt and rotator cuff.</div></div></div>
+<div class="cd-row" onclick="ck(this)" style="cursor:pointer"><div class="chk" style="margin-top:2px"></div><div class="cd-num">3</div><div class="cd-body"><div class="cd-name">Overhead Tricep Stretch</div><div class="cd-hold">30 sec · each arm</div><div class="cd-note">Reach one hand down your back, push the elbow down gently with the other hand. Your triceps worked hard today.</div></div></div>
+<div class="cd-row" onclick="ck(this)" style="cursor:pointer"><div class="chk" style="margin-top:2px"></div><div class="cd-num">4</div><div class="cd-body"><div class="cd-name">Child's Pose — Breathe Here</div><div class="cd-hold">60 sec</div><div class="cd-note">Kneel, sit back on heels, reach arms forward, forehead to floor. Slow, deep breaths. This one matters most — it tells your nervous system the session is over.</div></div></div>
+</div>`,
+  pull: `<div class="cd-wrap"><div class="cd-title">Cool-Down · 5 min · Do not skip this</div>
+<div class="cd-row" onclick="ck(this)" style="cursor:pointer"><div class="chk" style="margin-top:2px"></div><div class="cd-num">1</div><div class="cd-body"><div class="cd-name">Lat Stretch — Doorway or Bar</div><div class="cd-hold">45 sec · each side</div><div class="cd-note">Grab a doorframe at head height, step forward, lean away. Or hang from the bar and shift side to side. Lats shorten every time you pull — this reverses it.</div></div></div>
+<div class="cd-row" onclick="ck(this)" style="cursor:pointer"><div class="chk" style="margin-top:2px"></div><div class="cd-num">2</div><div class="cd-body"><div class="cd-name">Bicep Wall Stretch</div><div class="cd-hold">30 sec · each arm</div><div class="cd-note">Palm flat on wall behind you at shoulder height, thumb pointing down. Slowly rotate body away. You'll feel the bicep and forearm open up.</div></div></div>
+<div class="cd-row" onclick="ck(this)" style="cursor:pointer"><div class="chk" style="margin-top:2px"></div><div class="cd-num">3</div><div class="cd-body"><div class="cd-name">Thread the Needle (Thoracic Rotation)</div><div class="cd-hold">30 sec · each side</div><div class="cd-note">On all fours, slide one arm under your body and rotate until shoulder hits the floor. Opens the mid-back. Key for posture if you sit at a desk all day.</div></div></div>
+<div class="cd-row" onclick="ck(this)" style="cursor:pointer"><div class="chk" style="margin-top:2px"></div><div class="cd-num">4</div><div class="cd-body"><div class="cd-name">Child's Pose — Breathe Here</div><div class="cd-hold">60 sec</div><div class="cd-note">Arms extended forward, breathe into your lower back. Every single session ends here. It costs 60 seconds and your back will thank you for years.</div></div></div>
+</div>`,
+  full: `<div class="cd-wrap"><div class="cd-title">Cool-Down · 5 min · Do not skip this</div>
+<div class="cd-row" onclick="ck(this)" style="cursor:pointer"><div class="chk" style="margin-top:2px"></div><div class="cd-num">1</div><div class="cd-body"><div class="cd-name">Figure-4 Piriformis Stretch</div><div class="cd-hold">45 sec · each side</div><div class="cd-note">On your back, cross one ankle over opposite knee, pull the bottom leg toward you. Targets the glutes and hips — essential after heavy squat days.</div></div></div>
+<div class="cd-row" onclick="ck(this)" style="cursor:pointer"><div class="chk" style="margin-top:2px"></div><div class="cd-num">2</div><div class="cd-body"><div class="cd-name">Standing Hamstring Stretch</div><div class="cd-hold">30 sec · each leg</div><div class="cd-note">One foot on a bench, leg straight, hinge from the hip — don't round your back. RDLs shorten the hamstrings; this lengthens them back out.</div></div></div>
+<div class="cd-row" onclick="ck(this)" style="cursor:pointer"><div class="chk" style="margin-top:2px"></div><div class="cd-num">3</div><div class="cd-body"><div class="cd-name">Kneeling Hip Flexor Stretch</div><div class="cd-hold">45 sec · each side</div><div class="cd-note">Kneel with one knee down, drive hips forward, keep torso tall. Squats tighten hip flexors. Tight hip flexors cause lower back pain. This is your armor.</div></div></div>
+<div class="cd-row" onclick="ck(this)" style="cursor:pointer"><div class="chk" style="margin-top:2px"></div><div class="cd-num">4</div><div class="cd-body"><div class="cd-name">Child's Pose + Deep Breathing</div><div class="cd-hold">60 sec</div><div class="cd-note">4 counts in, 4 counts out. You just did your hardest training day. End it with intention — your body will recover better for it.</div></div></div>
+</div>`,
+  cardio: `<div class="cd-wrap"><div class="cd-title">Cool-Down · 5 min</div>
+<div class="cd-row" onclick="ck(this)" style="cursor:pointer"><div class="chk" style="margin-top:2px"></div><div class="cd-num">1</div><div class="cd-body"><div class="cd-name">Standing Calf Stretch</div><div class="cd-hold">30 sec · each side</div><div class="cd-note">Hands on wall, one foot back, heel flat on floor. Rowing and incline walking both load the calves — they need this.</div></div></div>
+<div class="cd-row" onclick="ck(this)" style="cursor:pointer"><div class="chk" style="margin-top:2px"></div><div class="cd-num">2</div><div class="cd-body"><div class="cd-name">Seated Forward Fold</div><div class="cd-hold">60 sec</div><div class="cd-note">Legs straight, reach toward your feet. Don't force it — let gravity work. Breathe and sink a little deeper each exhale. Great for overall hamstring flexibility.</div></div></div>
+<div class="cd-row" onclick="ck(this)" style="cursor:pointer"><div class="chk" style="margin-top:2px"></div><div class="cd-num">3</div><div class="cd-body"><div class="cd-name">Supine Spinal Twist</div><div class="cd-hold">30 sec · each side</div><div class="cd-note">On your back, draw one knee to chest and rotate across the body, arms out. Let the knee fall to the floor. Releases lower back and IT band.</div></div></div>
+<div class="cd-row" onclick="ck(this)" style="cursor:pointer"><div class="chk" style="margin-top:2px"></div><div class="cd-num">4</div><div class="cd-body"><div class="cd-name">Child's Pose</div><div class="cd-hold">60 sec</div><div class="cd-note">Even on cardio day. End every session intentionally. Your nervous system needs this signal to shift out of fight-or-flight mode.</div></div></div>
+</div>`
+};
+
+
+const VERSES = {
+  d1: {text: "Do you not know that your bodies are temples of the Holy Spirit, who is in you, whom you have received from God? You are not your own.", ref: "1 Corinthians 6:19"},
+  d2: {text: "I can do all things through Christ who strengthens me.", ref: "Philippians 4:13"},
+  d3: {text: "Be strong and courageous. Do not be afraid; do not be discouraged, for the Lord your God will be with you wherever you go.", ref: "Joshua 1:9"},
+  d4: {text: "But those who hope in the Lord will renew their strength. They will soar on wings like eagles; they will run and not grow weary.", ref: "Isaiah 40:31"}
+};
+
+const QUOTES = {
+  d1: {text: "The most important set is the next one. You don't stop when you're tired. You stop when you're done.", attr: "David Goggins"},
+  d2: {text: "The wolf does not concern himself with the opinions of the sheep. Get after it.", attr: "David Goggins"},
+  d3: {text: "You can have results or excuses. Not both. The iron doesn't care about your feelings.", attr: "Arnold Schwarzenegger"},
+  d4: {text: "What we do in life echoes in eternity. Make today count.", attr: "Maximus — Gladiator"}
+};
+
+function injectVerseAndQuote(dayId) {
+  const page = document.getElementById(dayId);
+  if (!page) return;
+  const v = VERSES[dayId];
+  const q = QUOTES[dayId];
+
+  // Verse — insert right after <br> at top of page
+  const br = page.querySelector('br');
+  if (v && br) {
+    const vEl = document.createElement('div');
+    vEl.className = 'verse-bar';
+    vEl.innerHTML = `<div class="verse-icon">✝️</div><div><div class="verse-text">"${v.text}"</div><div class="verse-ref">${v.ref}</div></div>`;
+    br.after(vEl);
+  }
+
+  // Quote — insert before the tip box
+  const tip = page.querySelector('.tip');
+  if (q && tip) {
+    const qEl = document.createElement('div');
+    qEl.className = 'quote-bar';
+    qEl.innerHTML = `<div class="quote-text">"${q.text}"</div><div class="quote-attr">— ${q.attr}</div>`;
+    tip.before(qEl);
+  }
+}
+
+['d1','d2','d3','d4'].forEach(injectVerseAndQuote);
+
+function injectBlocks() {
+  const days = [
+    {id:'d1', wu:'push', cd:'push'},
+    {id:'d2', wu:'pull', cd:'pull'},
+    {id:'d3', wu:'full', cd:'full'},
+    {id:'d4', wu:'cardio', cd:'cardio'}
+  ];
+  days.forEach(({id, wu, cd}) => {
+    const page = document.getElementById(id);
+    const timer = page.querySelector('.timer-wrap');
+
+    // Warm-up block
+    const wuBlock = document.createElement('div');
+    wuBlock.className = 'block';
+    wuBlock.innerHTML = `<div class="bhead"><div class="bicon">🚣</div><div class="bname">Warm-Up</div><span class="badge bwu">Warm-Up</span><div class="btime">5 min</div></div>${WARMUPS[wu]}`;
+    timer.after(wuBlock);
+
+    // Cool-down block — insert before complete button
+    const cbtn = page.querySelector('.cbtn');
+    const cdBlock = document.createElement('div');
+    cdBlock.className = 'block';
+    cdBlock.innerHTML = `<div class="bhead"><div class="bicon">🧘</div><div class="bname">Cool-Down & Stretching</div><span class="badge bcd">Recovery</span><div class="btime">5 min</div></div>${COOLDOWNS[cd]}`;
+    cbtn.before(cdBlock);
+  });
+}
+injectBlocks();
+
+// Check off a row
+function ck(el){
+  const row = el.closest('.exrow,.erow,.wu-row,.cd-row');
+  if(!row) return;
+  const done = row.classList.toggle('row-done');
+  const chk = row.querySelector('.chk');
+  if(chk) chk.textContent = done ? '✓' : '';
+}
+
+// Nav
+function go(id,btn){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  if(btn){
+    document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+  }
+}
+
+// Timers
+const TI={},TE={};
+function tstart(n){
+  if(TI[n])return;
+  const s=Date.now()-(TE[n]||0);
+  TI[n]=setInterval(()=>{
+    const e=Date.now()-s; TE[n]=e;
+    const m=String(Math.floor(e/60000)).padStart(2,'0');
+    const sc=String(Math.floor((e%60000)/1000)).padStart(2,'0');
+    document.getElementById('t'+n).textContent=m+':'+sc;
+  },500);
+  document.getElementById('ts'+n).style.display='none';
+  document.getElementById('tk'+n).style.display='';
+}
+function tstop(n){
+  clearInterval(TI[n]); TI[n]=null;
+  document.getElementById('ts'+n).style.display='';
+  document.getElementById('tk'+n).style.display='none';
+}
+function treset(n){
+  tstop(n); TE[n]=0;
+  document.getElementById('t'+n).textContent='00:00';
+}
+
+// Logging
+let logs=JSON.parse(localStorage.getItem('il')||'[]');
+let scount=parseInt(localStorage.getItem('ilsc')||'0');
+document.getElementById('sc').textContent=scount;
+
+function lg(btn,id,name){
+  const v=document.getElementById(id).value.trim();
+  if(!v){document.getElementById(id).focus();return;}
+  logs.unshift({name,v,d:new Date().toLocaleDateString(),ts:Date.now()});
+  if(logs.length>100)logs=logs.slice(0,100);
+  localStorage.setItem('il',JSON.stringify(logs));
+  btn.classList.add('logged'); btn.textContent='✓ Logged';
+  setTimeout(()=>{btn.classList.remove('logged');btn.textContent='Log';},2000);
+  renderLog();
+}
+
+function renderLog(){
+  const c=document.getElementById('logview');
+  if(!logs.length){c.innerHTML='<div style="color:var(--muted);font-size:0.8rem;padding:20px 0;text-align:center;font-family:\'DM Mono\',monospace">No lifts logged yet.<br>Head to a workout day and tap Log.</div>';return;}
+  const bests={};
+  logs.forEach(e=>{const n=parseFloat(e.v);if(!isNaN(n)&&(!bests[e.name]||n>bests[e.name]))bests[e.name]=n;});
+  let h='<table class="ltable"><thead><tr><th>Date</th><th>Exercise</th><th>Value</th></tr></thead><tbody>';
+  logs.slice(0,25).forEach(e=>{
+    const n=parseFloat(e.v);
+    const pr=!isNaN(n)&&bests[e.name]===n;
+    h+=`<tr><td style="color:var(--muted);font-family:'DM Mono',monospace;font-size:0.72rem">${e.d}</td><td>${e.name}${pr?'<span class="prbadge">PR</span>':''}</td><td style="font-family:'DM Mono',monospace;color:var(--accent)">${e.v}</td></tr>`;
+  });
+  h+='</tbody></table>';
+  c.innerHTML=h;
+}
+
+function clearAll(){
+  if(!confirm('Clear all logs?'))return;
+  logs=[];localStorage.setItem('il',JSON.stringify(logs));renderLog();
+}
+
+// Week grid
+function tog(id){
+  const el=document.getElementById(id);
+  const ck=el.querySelector('.wdc');
+  if(el.classList.contains('done')){el.classList.remove('done');ck.textContent='⬜';}
+  else{el.classList.add('done');ck.textContent='✅';}
+}
+
+const dayMap={Mon:'wMon',Wed:'wWed',Fri:'wFri',Sat:'wSat'};
+function done(day,label){
+  const el=document.getElementById(dayMap[day]);
+  if(el&&!el.classList.contains('done')){
+    el.classList.add('done');el.querySelector('.wdc').textContent='✅';
+    scount++;localStorage.setItem('ilsc',scount);
+    document.getElementById('sc').textContent=scount;
+  }
+  go('pr');
+  document.querySelectorAll('.bnav button').forEach((b,i)=>b.classList.toggle('active',i===4));
+}
+
+renderLog();
+</script>
+</body>
+</html>
